@@ -1,0 +1,316 @@
+{
+  "status": "TAMPER_DETECTED",
+  "policy_sha256": "dfe5641de1702eb159b61721543044dad29b3828a7e9de9e22055a8f63e082c5",
+  "summary": {
+    "UNCHANGED": 3,
+    "SAFE_CHANGE": 2,
+    "UNAUTHORIZED_WEAKENING": 2,
+    "SELF_APPROVED": 1,
+    "UNATTRIBUTED_CHANGE": 1,
+    "APPROVED_EXCEPTION": 1,
+    "UNVERIFIABLE": 1,
+    "PREEXISTING_VIOLATION": 1
+  },
+  "tamper_count": 4,
+  "results": [
+    {
+      "control_id": "gh.main.required_reviews",
+      "system": "github",
+      "resource": "repo:fictional-co/payments-api branch:main",
+      "baseline": 2,
+      "current": 2,
+      "rule": {
+        "kind": "min",
+        "min": 2
+      },
+      "change_event": null,
+      "verdict": "UNCHANGED",
+      "severity": "none",
+      "tamper": false,
+      "rationale": "Value matches baseline and satisfies policy."
+    },
+    {
+      "control_id": "gh.main.required_reviews_codeowners",
+      "system": "github",
+      "resource": "repo:fictional-co/payments-api branch:main",
+      "baseline": 1,
+      "current": 2,
+      "rule": {
+        "kind": "min",
+        "min": 1
+      },
+      "change_event": {
+        "control_id": "gh.main.required_reviews_codeowners",
+        "at": "2026-11-02T14:05:00Z",
+        "actor": {
+          "id": "human:dana.platform-lead",
+          "type": "human"
+        },
+        "approval": null,
+        "ref": "CHG-101"
+      },
+      "verdict": "SAFE_CHANGE",
+      "severity": "none",
+      "tamper": false,
+      "rationale": "Change keeps or strengthens the control and is attributed."
+    },
+    {
+      "control_id": "gh.main.enforce_admins",
+      "system": "github",
+      "resource": "repo:fictional-co/payments-api branch:main",
+      "baseline": true,
+      "current": false,
+      "rule": {
+        "kind": "safe_bool",
+        "safe_value": true
+      },
+      "change_event": {
+        "control_id": "gh.main.enforce_admins",
+        "at": "2026-11-03T02:11:00Z",
+        "actor": {
+          "id": "agent:release-bot",
+          "type": "agent"
+        },
+        "approval": null,
+        "ref": "run-8841"
+      },
+      "verdict": "UNAUTHORIZED_WEAKENING",
+      "severity": "critical",
+      "tamper": true,
+      "rationale": "Control weakened with no recorded approval."
+    },
+    {
+      "control_id": "gh.main.required_status_checks",
+      "system": "github",
+      "resource": "repo:fictional-co/payments-api branch:main",
+      "baseline": [
+        "unit-tests",
+        "security-scan",
+        "lint"
+      ],
+      "current": [
+        "unit-tests",
+        "lint"
+      ],
+      "rule": {
+        "kind": "must_include",
+        "must_include": [
+          "unit-tests",
+          "security-scan"
+        ]
+      },
+      "change_event": {
+        "control_id": "gh.main.required_status_checks",
+        "at": "2026-11-03T02:12:00Z",
+        "actor": {
+          "id": "agent:release-bot",
+          "type": "agent"
+        },
+        "approval": {
+          "approver": {
+            "id": "agent:release-bot",
+            "type": "agent"
+          },
+          "ticket": "AUTO-1",
+          "at": "2026-11-03T02:12:00Z"
+        },
+        "ref": "run-8841"
+      },
+      "verdict": "SELF_APPROVED",
+      "severity": "critical",
+      "tamper": true,
+      "rationale": "Approval came from the actor itself or from an automated identity. Agents cannot authorize changes to their own guardrails."
+    },
+    {
+      "control_id": "gh.main.allow_force_pushes",
+      "system": "github",
+      "resource": "repo:fictional-co/payments-api branch:main",
+      "baseline": false,
+      "current": false,
+      "rule": {
+        "kind": "safe_bool",
+        "safe_value": false
+      },
+      "change_event": null,
+      "verdict": "UNCHANGED",
+      "severity": "none",
+      "tamper": false,
+      "rationale": "Value matches baseline and satisfies policy."
+    },
+    {
+      "control_id": "alerts.sev1.route",
+      "system": "observability",
+      "resource": "service:payments-api",
+      "baseline": "pager:platform-oncall",
+      "current": "chat:#agent-sandbox",
+      "rule": {
+        "kind": "allowed_values",
+        "allowed_values": [
+          "pager:platform-oncall",
+          "pager:payments-oncall"
+        ]
+      },
+      "change_event": null,
+      "verdict": "UNATTRIBUTED_CHANGE",
+      "severity": "high",
+      "tamper": true,
+      "rationale": "Value changed with no matching change event. Something modified this control outside the audited path."
+    },
+    {
+      "control_id": "alerts.sev2.route",
+      "system": "observability",
+      "resource": "service:payments-api",
+      "baseline": "pager:platform-oncall",
+      "current": "chat:#payments-alerts",
+      "rule": {
+        "kind": "allowed_values",
+        "allowed_values": [
+          "pager:platform-oncall",
+          "chat:#payments-alerts"
+        ]
+      },
+      "change_event": {
+        "control_id": "alerts.sev2.route",
+        "at": "2026-11-02T16:00:00Z",
+        "actor": {
+          "id": "human:sam.sre-manager",
+          "type": "human"
+        },
+        "approval": {
+          "approver": {
+            "id": "human:sam.sre-manager",
+            "type": "human"
+          },
+          "ticket": "CHG-102",
+          "at": "2026-11-02T15:55:00Z"
+        },
+        "ref": "CHG-102"
+      },
+      "verdict": "SAFE_CHANGE",
+      "severity": "none",
+      "tamper": false,
+      "rationale": "Change keeps or strengthens the control and is attributed."
+    },
+    {
+      "control_id": "alerts.sev1.enabled",
+      "system": "observability",
+      "resource": "service:payments-api",
+      "baseline": true,
+      "current": true,
+      "rule": {
+        "kind": "safe_bool",
+        "safe_value": true
+      },
+      "change_event": null,
+      "verdict": "UNCHANGED",
+      "severity": "none",
+      "tamper": false,
+      "rationale": "Value matches baseline and satisfies policy."
+    },
+    {
+      "control_id": "audit.sink.enabled",
+      "system": "audit",
+      "resource": "sink:org-audit-log",
+      "baseline": true,
+      "current": false,
+      "rule": {
+        "kind": "safe_bool",
+        "safe_value": true
+      },
+      "change_event": {
+        "control_id": "audit.sink.enabled",
+        "at": "2026-11-04T09:00:00Z",
+        "actor": {
+          "id": "human:ari.platform-eng",
+          "type": "human"
+        },
+        "approval": {
+          "approver": {
+            "id": "human:lee.security-owner",
+            "type": "human"
+          },
+          "ticket": "CHG-103",
+          "expires": "2026-11-05T09:00:00Z",
+          "at": "2026-11-04T08:40:00Z"
+        },
+        "ref": "CHG-103"
+      },
+      "verdict": "APPROVED_EXCEPTION",
+      "severity": "low",
+      "tamper": false,
+      "rationale": "Weakening approved by an authorized human owner. Surfaced for awareness and expiry tracking."
+    },
+    {
+      "control_id": "audit.sink.retention_days",
+      "system": "audit",
+      "resource": "sink:org-audit-log",
+      "baseline": 365,
+      "current": 30,
+      "rule": {
+        "kind": "min",
+        "min": 365
+      },
+      "change_event": {
+        "control_id": "audit.sink.retention_days",
+        "at": "2026-11-04T03:30:00Z",
+        "actor": {
+          "id": "agent:release-bot",
+          "type": "agent"
+        },
+        "approval": {
+          "approver": {
+            "id": "human:ari.platform-eng",
+            "type": "human"
+          },
+          "ticket": "CHG-104",
+          "at": "2026-11-04T03:20:00Z"
+        },
+        "ref": "run-8902"
+      },
+      "verdict": "UNAUTHORIZED_WEAKENING",
+      "severity": "critical",
+      "tamper": true,
+      "rationale": "Approver 'human:ari.platform-eng' is not an authorized owner for audit controls."
+    },
+    {
+      "control_id": "agent.policy.require_human_approval_prod",
+      "system": "agent-policy",
+      "resource": "agent:release-bot",
+      "baseline": true,
+      "current": null,
+      "rule": {
+        "kind": "safe_bool",
+        "safe_value": true
+      },
+      "change_event": null,
+      "verdict": "UNVERIFIABLE",
+      "severity": "medium",
+      "tamper": false,
+      "rationale": "Collector returned no value for this control. Unknown is not safe; verify manually."
+    },
+    {
+      "control_id": "agent.policy.monitor_sampling_rate",
+      "system": "agent-policy",
+      "resource": "agent:release-bot",
+      "baseline": 0.5,
+      "current": 0.5,
+      "rule": {
+        "kind": "min",
+        "min": 1.0
+      },
+      "change_event": null,
+      "verdict": "PREEXISTING_VIOLATION",
+      "severity": "medium",
+      "tamper": false,
+      "rationale": "Unchanged, but the baseline itself already violates policy."
+    }
+  ],
+  "human_decision_required": [
+    "gh.main.enforce_admins",
+    "gh.main.required_status_checks",
+    "alerts.sev1.route",
+    "audit.sink.retention_days",
+    "agent.policy.require_human_approval_prod",
+    "agent.policy.monitor_sampling_rate"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "specialist": "security-reviewer",
+  "kind": "specialist",
+  "recommendation": "HOLD",
+  "confidence": "High",
+  "findings": [
+    {
+      "id": "S-1",
+      "severity": "high",
+      "blocking": true,
+      "area": "security",
+      "claim": "New POST /payments/saved-cards endpoint lacks an object-level authorization test; SAST flags missing ownership check.",
+      "evidence": [
+        "sast:finding-4471",
+        "pr:#812 diff lines 40-66"
+      ]
+    }
+  ],
+  "conditions": [],
+  "unknowns": [
+    "Pen test for saved-card flow not scheduled."
+  ]
+}

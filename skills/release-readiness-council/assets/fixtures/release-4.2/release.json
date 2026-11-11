@@ -1,0 +1,26 @@
+{
+  "id": "REL-4.2",
+  "title": "Fictional release 4.2: checkout redesign and saved-card payments",
+  "release_owner": "human:morgan.release-owner (VP Engineering)",
+  "target_date": "2026-11-14",
+  "policy": {
+    "required_specialists": [
+      "quality-reviewer",
+      "security-reviewer",
+      "performance-reviewer",
+      "customer-risk-reviewer"
+    ],
+    "hold_on_blocking_severity": "high",
+    "max_high_findings_for_go": 1,
+    "area_owners": {
+      "quality": "quality-reviewer",
+      "security": "security-reviewer",
+      "performance": "performance-reviewer",
+      "customer": "customer-risk-reviewer",
+      "control-integrity": "security-reviewer"
+    },
+    "release_path_controls": [
+      "gh.main."
+    ]
+  }
+}

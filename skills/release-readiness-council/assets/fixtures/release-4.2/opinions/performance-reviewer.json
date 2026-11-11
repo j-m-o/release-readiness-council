@@ -1,0 +1,22 @@
+{
+  "specialist": "performance-reviewer",
+  "kind": "specialist",
+  "recommendation": "GO_WITH_CONDITIONS",
+  "confidence": "Medium",
+  "findings": [
+    {
+      "id": "P-1",
+      "severity": "medium",
+      "blocking": false,
+      "area": "performance",
+      "claim": "Checkout p95 up 18% under load test (410ms to 485ms), inside the 500ms budget.",
+      "evidence": [
+        "loadtest:lt-2026-11-07 report"
+      ]
+    }
+  ],
+  "conditions": [
+    "Ship behind a feature flag ramped 10%, 50%, 100% with p95 alert at 500ms."
+  ],
+  "unknowns": []
+}

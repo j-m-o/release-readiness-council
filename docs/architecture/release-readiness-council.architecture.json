@@ -1,0 +1,366 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Release Readiness Council: evidence in, recommendation out, human decides",
+    "output": "docs/architecture/release-readiness-council.html",
+    "quality_profile": "showcase",
+    "locale": "en"
+  },
+  "components": [
+    {
+      "id": "request",
+      "type": "external",
+      "label": "Release request",
+      "sublabel": "scope + owner",
+      "pos": [
+        40,
+        215
+      ],
+      "size": [
+        100,
+        60
+      ]
+    },
+    {
+      "id": "chair",
+      "type": "backend",
+      "label": "Council chair",
+      "sublabel": "orchestrator",
+      "pos": [
+        200,
+        180
+      ],
+      "size": [
+        130,
+        130
+      ],
+      "tag": "only tool access"
+    },
+    {
+      "id": "evidence",
+      "type": "database",
+      "label": "Evidence sources",
+      "sublabel": "CI, scans, load, support",
+      "pos": [
+        200,
+        400
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "quality",
+      "type": "backend",
+      "label": "Quality reviewer",
+      "sublabel": "coverage + pass rate",
+      "pos": [
+        430,
+        40
+      ],
+      "size": [
+        180,
+        50
+      ]
+    },
+    {
+      "id": "security",
+      "type": "security",
+      "label": "Security reviewer",
+      "sublabel": "exploit + controls",
+      "pos": [
+        430,
+        108
+      ],
+      "size": [
+        180,
+        50
+      ]
+    },
+    {
+      "id": "perf",
+      "type": "backend",
+      "label": "Performance reviewer",
+      "sublabel": "latency vs budget",
+      "pos": [
+        430,
+        176
+      ],
+      "size": [
+        180,
+        50
+      ]
+    },
+    {
+      "id": "customer",
+      "type": "backend",
+      "label": "Customer-risk reviewer",
+      "sublabel": "impact + detection",
+      "pos": [
+        430,
+        244
+      ],
+      "size": [
+        180,
+        50
+      ]
+    },
+    {
+      "id": "flaky",
+      "type": "messagebus",
+      "label": "Flaky Test Investigator",
+      "sublabel": "subagent",
+      "pos": [
+        430,
+        330
+      ],
+      "size": [
+        180,
+        50
+      ],
+      "tag": "own repo"
+    },
+    {
+      "id": "tripwire",
+      "type": "security",
+      "label": "Control-Plane Tripwire",
+      "sublabel": "agent",
+      "pos": [
+        430,
+        398
+      ],
+      "size": [
+        180,
+        50
+      ],
+      "tag": "own repo"
+    },
+    {
+      "id": "engine",
+      "type": "backend",
+      "label": "Deliberation engine",
+      "sublabel": "evidence rule + policy",
+      "pos": [
+        710,
+        180
+      ],
+      "size": [
+        130,
+        130
+      ],
+      "tag": "deterministic"
+    },
+    {
+      "id": "policy",
+      "type": "database",
+      "label": "Release policy",
+      "sublabel": "versioned JSON",
+      "pos": [
+        710,
+        400
+      ],
+      "size": [
+        130,
+        60
+      ]
+    },
+    {
+      "id": "brief",
+      "type": "frontend",
+      "label": "Decision brief",
+      "sublabel": "+ decision record",
+      "pos": [
+        920,
+        215
+      ],
+      "size": [
+        120,
+        60
+      ]
+    },
+    {
+      "id": "owner",
+      "type": "external",
+      "label": "Release owner",
+      "sublabel": "named human",
+      "pos": [
+        1115,
+        215
+      ],
+      "size": [
+        110,
+        60
+      ],
+      "tag": "decides"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Council: recommends, never decides",
+      "wraps": [
+        "chair",
+        "evidence",
+        "quality",
+        "security",
+        "perf",
+        "customer",
+        "flaky",
+        "tripwire",
+        "engine",
+        "policy"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Specialists: isolated, read-only",
+      "wraps": [
+        "quality",
+        "security",
+        "perf",
+        "customer"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "request-chair",
+      "from": "request",
+      "to": "chair",
+      "label": "scope",
+      "variant": "emphasis"
+    },
+    {
+      "id": "chair-evidence",
+      "from": "chair",
+      "to": "evidence",
+      "label": "read once",
+      "variant": "security"
+    },
+    {
+      "id": "chair-quality",
+      "from": "chair",
+      "to": "quality",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "chair-security",
+      "from": "chair",
+      "to": "security",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "chair-perf",
+      "from": "chair",
+      "to": "perf",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "chair-customer",
+      "from": "chair",
+      "to": "customer",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "chair-flaky",
+      "from": "chair",
+      "to": "flaky",
+      "variant": "dashed",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "chair-tripwire",
+      "from": "chair",
+      "to": "tripwire",
+      "variant": "dashed",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "quality-engine",
+      "from": "quality",
+      "to": "engine",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "security-engine",
+      "from": "security",
+      "to": "engine",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "perf-engine",
+      "from": "perf",
+      "to": "engine",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "customer-engine",
+      "from": "customer",
+      "to": "engine",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "flaky-engine",
+      "from": "flaky",
+      "to": "engine",
+      "variant": "dashed",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "tripwire-engine",
+      "from": "tripwire",
+      "to": "engine",
+      "variant": "dashed",
+      "route": "orthogonal-h"
+    },
+    {
+      "id": "policy-engine",
+      "from": "policy",
+      "to": "engine",
+      "label": "thresholds"
+    },
+    {
+      "id": "engine-brief",
+      "from": "engine",
+      "to": "brief",
+      "label": "recommend",
+      "variant": "emphasis"
+    },
+    {
+      "id": "brief-owner",
+      "from": "brief",
+      "to": "owner",
+      "label": "decides",
+      "variant": "emphasis"
+    }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Orchestration",
+      "items": [
+        "Chair gathers evidence once and is the only role with tool access",
+        "Six reviewers run in parallel; each returns the same opinion JSON contract"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Deliberation rules",
+      "items": [
+        "No evidence, no weight: unsupported claims are excluded",
+        "Splits are reported, never averaged",
+        "A missing required reviewer makes the result INCOMPLETE"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Human gate",
+      "items": [
+        "Output is RECOMMEND_GO, GO_WITH_CONDITIONS, HOLD or INCOMPLETE",
+        "Only the named release owner decides and signs the record"
+      ]
+    }
+  ]
+}

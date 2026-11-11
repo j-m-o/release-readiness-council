@@ -1,0 +1,25 @@
+{
+  "specialist": "quality-reviewer",
+  "kind": "specialist",
+  "recommendation": "GO",
+  "confidence": "Medium",
+  "findings": [
+    {
+      "id": "Q-1",
+      "severity": "medium",
+      "blocking": false,
+      "area": "quality",
+      "claim": "Checkout regression suite 96% passing after quarantining 5 flaky tests.",
+      "evidence": [
+        "ci:run-9120 summary",
+        "quarantine-list:2026-11-08"
+      ]
+    }
+  ],
+  "conditions": [
+    "Quarantined tests reviewed by QE owner within 48 hours of release."
+  ],
+  "unknowns": [
+    "Saved-card flow has no end-to-end test on Safari."
+  ]
+}

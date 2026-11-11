@@ -1,0 +1,176 @@
+{
+  "specialist": "flaky-test-investigator",
+  "version": "1.0.0",
+  "scope": "Fictional release 4.2 (checkout and account areas)",
+  "summary": {
+    "APP_REGRESSION": 1,
+    "SELECTOR_CHURN": 1,
+    "ENVIRONMENT_INSTABILITY": 1,
+    "TEST_DATA_COLLISION": 1,
+    "TIMING_RACE": 1,
+    "STABLE": 1,
+    "INSUFFICIENT_EVIDENCE": 1,
+    "UNCLASSIFIED": 1
+  },
+  "real_regressions": [
+    "T-101"
+  ],
+  "noise": [
+    "T-102",
+    "T-103",
+    "T-104",
+    "T-105"
+  ],
+  "results": [
+    {
+      "test_id": "T-101",
+      "name": "checkout: apply promo code",
+      "runs": 6,
+      "flake_rate": 0.67,
+      "evidence": [
+        "4/6 runs failed; dominant error class 'assertion'.",
+        "Every run passes before commit b2 and fails from it onward."
+      ],
+      "alternative_hypotheses": [],
+      "error_classes": {
+        "assertion": 4
+      },
+      "first_failing_commit": "b2",
+      "classification": "APP_REGRESSION",
+      "confidence": "High",
+      "recommended_next_step": "Treat as a real defect. Link the first failing commit to the owning team; do not quarantine.",
+      "real_regression": true,
+      "owner_decision_needed": true
+    },
+    {
+      "test_id": "T-102",
+      "name": "checkout: pay with saved card",
+      "runs": 6,
+      "flake_rate": 0.67,
+      "evidence": [
+        "4/6 runs failed; dominant error class 'locator'.",
+        "Every run passes before commit b2 and fails from it onward."
+      ],
+      "alternative_hypotheses": [],
+      "error_classes": {
+        "locator": 4
+      },
+      "first_failing_commit": "b2",
+      "classification": "SELECTOR_CHURN",
+      "confidence": "High",
+      "recommended_next_step": "Confirm whether the UI change was intended. If so, update the locator to a stable test id; if not, it is a defect.",
+      "real_regression": false,
+      "owner_decision_needed": true
+    },
+    {
+      "test_id": "T-103",
+      "name": "account: download invoice PDF",
+      "runs": 6,
+      "flake_rate": 0.5,
+      "evidence": [
+        "3/6 runs failed; dominant error class 'infra'.",
+        "Failures concentrate on environment 'ci-west'; other environments pass."
+      ],
+      "alternative_hypotheses": [],
+      "error_classes": {
+        "infra": 3
+      },
+      "affected_environment": "ci-west",
+      "classification": "ENVIRONMENT_INSTABILITY",
+      "confidence": "High",
+      "recommended_next_step": "Route to the platform owner for the affected runner or dependency. Test code is likely fine.",
+      "real_regression": false,
+      "owner_decision_needed": true
+    },
+    {
+      "test_id": "T-104",
+      "name": "signup: create workspace",
+      "runs": 6,
+      "flake_rate": 0.33,
+      "evidence": [
+        "2/6 runs failed; dominant error class 'data_conflict'.",
+        "Failing runs shared a data key with a concurrent run."
+      ],
+      "alternative_hypotheses": [],
+      "error_classes": {
+        "data_conflict": 2
+      },
+      "classification": "TEST_DATA_COLLISION",
+      "confidence": "High",
+      "recommended_next_step": "Isolate test data per run (unique keys or per-worker fixtures) before rerunning in parallel.",
+      "real_regression": false,
+      "owner_decision_needed": true
+    },
+    {
+      "test_id": "T-105",
+      "name": "cart: update quantity",
+      "runs": 6,
+      "flake_rate": 0.33,
+      "evidence": [
+        "2/6 runs failed; dominant error class 'timeout'.",
+        "The same commit both passes and fails: nondeterminism inside the test, app or data."
+      ],
+      "alternative_hypotheses": [],
+      "error_classes": {
+        "timeout": 2
+      },
+      "classification": "TIMING_RACE",
+      "confidence": "High",
+      "recommended_next_step": "Replace fixed waits with condition waits on the awaited state; review async ordering.",
+      "real_regression": false,
+      "owner_decision_needed": true
+    },
+    {
+      "test_id": "T-106",
+      "name": "search: filter by category",
+      "runs": 4,
+      "flake_rate": 0.0,
+      "evidence": [
+        "All 4 runs passed."
+      ],
+      "alternative_hypotheses": [],
+      "classification": "STABLE",
+      "confidence": "High",
+      "recommended_next_step": "No action.",
+      "real_regression": false,
+      "owner_decision_needed": false
+    },
+    {
+      "test_id": "T-107",
+      "name": "admin: export audit CSV",
+      "runs": 2,
+      "flake_rate": 0.5,
+      "evidence": [
+        "Only 2 run(s) supplied."
+      ],
+      "alternative_hypotheses": [],
+      "classification": "INSUFFICIENT_EVIDENCE",
+      "confidence": "Low",
+      "recommended_next_step": "Collect at least 3 runs, ideally across 2 environments and 2 commits, before classifying.",
+      "real_regression": false,
+      "owner_decision_needed": false
+    },
+    {
+      "test_id": "T-108",
+      "name": "checkout: tax line",
+      "runs": 6,
+      "flake_rate": 0.33,
+      "evidence": [
+        "2/6 runs failed; dominant error class 'unknown'.",
+        "The same commit both passes and fails: nondeterminism inside the test, app or data."
+      ],
+      "alternative_hypotheses": [
+        "Intermittent on the same commit, but error messages are too generic to separate timing, data or environment causes. Improve failure logging."
+      ],
+      "error_classes": {
+        "unknown": 2
+      },
+      "classification": "UNCLASSIFIED",
+      "confidence": "Low",
+      "recommended_next_step": "Signals do not agree. Hand to a QE engineer with the evidence below.",
+      "real_regression": false,
+      "owner_decision_needed": true
+    }
+  ],
+  "note": "Advisory. Quarantine and remediation decisions belong to the QE owner."
+}

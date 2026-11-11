@@ -1,0 +1,30 @@
+{
+  "specialist": "customer-risk-reviewer",
+  "kind": "specialist",
+  "recommendation": "GO",
+  "confidence": "Low",
+  "findings": [
+    {
+      "id": "C-1",
+      "severity": "low",
+      "blocking": false,
+      "area": "customer",
+      "claim": "Support volume on checkout down 12% over 30 days.",
+      "evidence": [
+        "support:dashboard checkout-30d"
+      ]
+    }
+  ],
+  "claims": [
+    {
+      "claim": "Enterprise customers will love the redesign and churn will drop.",
+      "evidence": []
+    }
+  ],
+  "conditions": [
+    "Customer comms drafted for saved-card launch and approved by CS lead."
+  ],
+  "unknowns": [
+    "No enterprise beta feedback collected."
+  ]
+}
