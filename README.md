@@ -67,7 +67,7 @@ python -m unittest discover -s tests -v   # from repo root
 | Option | Use |
 | --- | --- |
 | `agents/*.md` | Copy to `.claude/agents/`: the chair plus four specialist subagents |
-| `dist/release-readiness-council.zip` | Upload as a skill (Claude, Agensi or any SKILL.md agent) |
+| `dist/release-readiness-council.zip` | Upload as a skill ([Claude](https://claude.ai), [Agensi](https://agensi.io) or any SKILL.md agent) |
 | `skills/release-readiness-council/` | Copy into `~/.claude/skills/` |
 
 ## Part of a connected portfolio
